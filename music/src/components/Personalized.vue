@@ -1,11 +1,11 @@
 <template>
     <div class="personalized">
       <div class="personalized-top">
-        <h3>推荐歌单</h3>
+        <h3>{{title}}</h3>
       </div>
       <div class="personalized-bottom">
         <div class="item" v-for="value in personalized" :key="value.id">
-          <img :src="value.picUrl" alt="">
+          <img v-lazy="value.picUrl" alt="">
           <p>{{value.name}}</p>
         </div>
       </div>
@@ -20,27 +20,35 @@ export default {
       type: Array,
       default: () => [],
       requierd: true
+    },
+    title: {
+      type: String,
+      default: '',
+      requierd: true
     }
   }
 }
 </script>
 
 <style scoped lang="scss">
-  @import "../assets/css/mixin";
-  @import "../assets/css/variable";
+@import "../assets/css/mixin";
+@import "../assets/css/variable";
 .personalized{
+  @include bg_sub_color();
   .personalized-top{
     width: 100%;
     height: 84px;
-    line-height: 84px;
     @include bg_sub_color();
-    padding: 0 20px;
-    border-left: 5px solid #000;
-    @include border_color();
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
     h3{
       @include font_size($font_large);
       font-weight: bold;
-      @include font_color()
+      @include font_color();
+      margin: 20px 0;
+      padding: 0 20px;
+      border-left: 5px solid #000;
+      @include border_color();
     }
   }
   .personalized-bottom{
@@ -58,7 +66,10 @@ export default {
         border-radius: 20px;
       }
       p{
-        @include clamp(2)
+        @include clamp(2);
+        @include font_size($font_medium_s);
+        @include font_color();
+        text-align: center;
       }
     }
   }
