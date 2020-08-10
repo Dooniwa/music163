@@ -3,8 +3,8 @@
     <ScrollView>
       <div>
         <Banner :banners="banners"></Banner>
-        <Personalized :personalized="personalized" :title="'推荐歌单'" @select="fatherSelectItem"></Personalized>
-        <Personalized :personalized="albums" :title="'最新专辑'"></Personalized>
+        <Personalized :personalized="personalized" :title="'推荐歌单'" @select="fatherSelectItem" :type="'personalized'"></Personalized>
+        <Personalized :personalized="albums" :title="'最新专辑'" @select="fatherSelectItem" :type="'albums'"></Personalized>
         <Newsong :newsong="newsong"></Newsong>
       </div>
     </ScrollView>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import { getBanner, getPersonalized, getAlbum, getNewsong } from '../api/index'
+import { getBanner, getPersonalized, getNewest, getNewsong } from '../api/index'
 import Banner from '../components/Banner'
 import Personalized from '../components/Personalized'
 import Newsong from '../components/Newsong'
@@ -32,10 +32,11 @@ export default {
     }
   },
   methods: {
-    fatherSelectItem (id) {
+    fatherSelectItem (id, type) {
       // console.log(id)
+      // console.log(`/recommend/detail/${id}/${type}`)
       this.$router.push({
-        path: `/recommend/detail/${id}`
+        path: `/recommend/detail/${id}/${type}`
       })
     }
   },
@@ -58,7 +59,7 @@ export default {
     }).catch(function (err) {
       console.log(err)
     })
-    getAlbum().then((data) => {
+    getNewest().then((data) => {
       // console.log(data)
       this.albums = data.albums.splice(0, 6)
     }).catch(function (err) {

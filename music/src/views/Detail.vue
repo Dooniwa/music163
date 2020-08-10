@@ -15,7 +15,7 @@ import SubHeader from '../components/SubHeader'
 import DetailTop from '../components/DetailTop'
 import DetailBottom from '../components/DetailBottom'
 import ScrollView from '../components/ScrollView'
-import { getDetail } from '../api/index'
+import { getDetail, getAlbum } from '../api/index'
 export default {
   name: 'Detail',
   components: {
@@ -26,17 +26,31 @@ export default {
   },
   data: function () {
     return {
-      playlist: []
+      playlist: {}
     }
   },
   created () {
-    getDetail({ id: this.$route.params.id })
-      .then((data) => {
-        // console.log(data)
-        this.playlist = data.playlist
-      }).catch((err) => {
-        console.log(err)
-      })
+    if (this.$route.params.type === 'personalized') {
+      getDetail({ id: this.$route.params.id })
+        .then((data) => {
+          // console.log(data)
+          this.playlist = data.playlist
+        }).catch((err) => {
+          console.log(err)
+        })
+    } else if (this.$route.params.type === 'albums') {
+      getAlbum({ id: this.$route.params.id })
+        .then((data) => {
+          // console.log(data)
+          this.playlist = {
+            name: data.album.name,
+            coverImgUrl: data.album.picUrl,
+            tracks: data.songs
+          }
+        }).catch((err) => {
+          console.log(err)
+        })
+    }
   },
   mounted () {
     const defaultHeight = this.$refs.top.$el.offsetHeight
