@@ -11,7 +11,8 @@ export default {
   mounted () {
     this.iscroll = new IScroll(this.$refs.wrapper, {
       mouseWheel: true,
-      scrollbars: true,
+      scrollbars: false,
+      probeType: 3,
       scrollX: false,
       scrollY: true,
       disablePointer: true,
@@ -42,6 +43,13 @@ export default {
     第二个参数: 告诉观察者对象我们需要观察什么内容
     * */
     observer.observe(this.$refs.wrapper, config)
+  },
+  methods: {
+    scrolling (fn) {
+      this.iscroll.on('scroll', function () {
+        fn(this.y)
+      })
+    }
   }
 }
 </script>

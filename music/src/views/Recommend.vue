@@ -3,11 +3,14 @@
     <ScrollView>
       <div>
         <Banner :banners="banners"></Banner>
-        <Personalized :personalized="personalized" :title="'推荐歌单'"></Personalized>
+        <Personalized :personalized="personalized" :title="'推荐歌单'" @select="fatherSelectItem"></Personalized>
         <Personalized :personalized="albums" :title="'最新专辑'"></Personalized>
         <Newsong :newsong="newsong"></Newsong>
       </div>
     </ScrollView>
+    <transition>
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -26,6 +29,14 @@ export default {
       personalized: [],
       albums: [],
       newsong: []
+    }
+  },
+  methods: {
+    fatherSelectItem (id) {
+      // console.log(id)
+      this.$router.push({
+        path: `/recommend/detail/${id}`
+      })
     }
   },
   components: {
@@ -66,9 +77,28 @@ export default {
 <style scoped lang="scss">
 .recommend{
   position: fixed;
+  overflow: hidden;
   top: 184px;
   left: 0;
   right: 0;
   bottom: 0;
 }
+  .v-enter{
+    transform: translateX(100%);
+  }
+  .v-enter-to{
+    transform: translateX(0);
+  }
+  .v-enter-active{
+    transition: all 1s;
+  }
+  .v-leave{
+    transform: translateX(0);
+  }
+  .v-leave-to{
+    transform: translateX(100%);
+  }
+  .v-leave-active{
+    transition: all 1s;
+  }
 </style>
