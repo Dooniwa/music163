@@ -11,9 +11,9 @@
 </template>
 
 <script>
-import SubHeader from '../components/SubHeader'
-import DetailTop from '../components/DetailTop'
-import DetailBottom from '../components/DetailBottom'
+import SubHeader from '../components/Detail/DetailHeader'
+import DetailTop from '../components/Detail/DetailTop'
+import DetailBottom from '../components/Detail/DetailBottom'
 import ScrollView from '../components/ScrollView'
 import { getDetail, getAlbum } from '../api/index'
 export default {
@@ -56,8 +56,11 @@ export default {
     const defaultHeight = this.$refs.top.$el.offsetHeight
     this.$refs.scrollview.scrolling((offsetY) => {
       if (offsetY < 0) {
-        const scale = 20 * Math.abs(offsetY / defaultHeight)
-        this.$refs.top.$el.style.filter = `blur(${scale}px)`
+        // const scale = 20 * Math.abs(offsetY / defaultHeight)
+        const scale = Math.abs(offsetY / defaultHeight)
+        // this.$refs.top.$el.style.filter = `blur(${scale}px)`
+        // console.log(this.$refs.top.$el.children[0].children[0])
+        this.$refs.top.$el.children[0].children[0].style.opacity = scale
       } else {
         const scale = 1 + offsetY / defaultHeight
         this.$refs.top.$el.style.transform = `scale(${scale})`

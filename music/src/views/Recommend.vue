@@ -1,13 +1,15 @@
 <template>
   <div class="recommend">
-    <ScrollView>
-      <div>
-        <Banner :banners="banners"></Banner>
-        <Personalized :personalized="personalized" :title="'推荐歌单'" @select="fatherSelectItem" :type="'personalized'"></Personalized>
-        <Personalized :personalized="albums" :title="'最新专辑'" @select="fatherSelectItem" :type="'albums'"></Personalized>
-        <Newsong :newsong="newsong"></Newsong>
-      </div>
-    </ScrollView>
+    <div class="recommend-swapper">
+      <ScrollView>
+        <div>
+          <Banner :banners="banners"></Banner>
+          <Personalized :personalized="personalized" :title="'推荐歌单'" @select="fatherSelectItem" :type="'personalized'"></Personalized>
+          <Personalized :personalized="albums" :title="'最新专辑'" @select="fatherSelectItem" :type="'albums'"></Personalized>
+          <Newsong :newsong="newsong"></Newsong>
+        </div>
+      </ScrollView>
+    </div>
     <transition>
       <router-view></router-view>
     </transition>
@@ -16,9 +18,9 @@
 
 <script>
 import { getBanner, getPersonalized, getNewest, getNewsong } from '../api/index'
-import Banner from '../components/Banner'
-import Personalized from '../components/Personalized'
-import Newsong from '../components/Newsong'
+import Banner from '../components/Recommend/Banner'
+import Personalized from '../components/Recommend/Personalized'
+import Newsong from '../components/Recommend/Newsong'
 import ScrollView from '../components/ScrollView'
 
 export default {
@@ -78,11 +80,15 @@ export default {
 <style scoped lang="scss">
 .recommend{
   position: fixed;
-  overflow: hidden;
   top: 184px;
   left: 0;
   right: 0;
   bottom: 0;
+  .recommend-swapper{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
 }
   .v-enter{
     transform: translateX(100%);
