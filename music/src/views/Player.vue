@@ -1,32 +1,32 @@
 <template>
     <div class="player">
-      <PlaterHeader></PlaterHeader>
-      <PlayerMiddle></PlayerMiddle>
-      <PlayerBottom></PlayerBottom>
+      <NormalPlayer></NormalPlayer>
+      <MiniPlayer @showList="showList"></MiniPlayer>
+      <ListPlayer ref="listPlayer"></ListPlayer>
     </div>
 </template>
 
 <script>
-import PlaterHeader from '../components/Player/PlayerHeader'
-import PlayerMiddle from '../components/Player/PlayerMiddle'
-import PlayerBottom from '../components/Player/PlayerBottom'
+import NormalPlayer from '../components/Player/NormalPlayer'
+import MiniPlayer from '../components/Player/MiniPlayer'
+import ListPlayer from '../components/Player/ListPlayer'
 export default {
   name: 'Player',
   components: {
-    PlaterHeader,
-    PlayerMiddle,
-    PlayerBottom
+    NormalPlayer,
+    MiniPlayer,
+    ListPlayer
+  },
+  methods: {
+    showList () {
+      this.$refs.listPlayer.show()
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
 .player{
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: pink;
+
 }
 </style>
