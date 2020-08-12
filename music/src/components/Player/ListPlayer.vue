@@ -1,4 +1,9 @@
 <template>
+  <transition
+    v-on:enter="enter"
+    v-on:leave="leave"
+    v-bind:css="false"
+  >
     <div class="list-player" v-show="isShow">
       <div class="player-warpper">
         <div class="player-top">
@@ -15,7 +20,7 @@
             <ul>
               <li class="item">
                 <div class="item-left">
-                  <div class="item-play"></div>
+                  <div class="item-play" @click="play" ref="play"></div>
                   <p>演员</p>
                 </div>
                 <div class="item-right">
@@ -41,10 +46,15 @@
         </div>
       </div>
     </div>
+  </transition>
 </template>
 
 <script>
 import ScrollView from '../ScrollView'
+import Velocity from 'velocity-animate'
+import 'velocity-animate/velocity.ui'
+import { mapActions, mapGetters } from 'vuex'
+
 export default {
   name: 'ListPlayer',
   data: function () {
@@ -53,15 +63,47 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+      'setIsPlaying'
+    ]
+    ),
+    play () {
+      this.setIsPlaying(!this.isPlaying)
+    },
     show () {
       this.isShow = true
     },
     hidden () {
       this.isShow = false
+    },
+    enter (el, done) {
+      Velocity(el, 'transition.swoopIn', { duration: 1000 }, function () {
+        done()
+      })
+    },
+    leave (el, done) {
+      Velocity(el, 'transition.swoopOut', { duration: 1000 }, function () {
+        done()
+      })
     }
   },
   components: {
     ScrollView
+  },
+  computed: {
+    ...mapGetters([
+      'isPlaying'
+    ]
+    )
+  },
+  watch: {
+    isPlaying (newValue, oldValue) {
+      if (newValue) {
+        this.$refs.play.classList.add('active')
+      } else {
+        this.$refs.play.classList.remove('active')
+      }
+    }
   }
 }
 </script>
@@ -120,7 +162,10 @@ export default {
             width: 56px;
             height: 56px;
             margin-right: 20px;
-            @include bg_img('../../assets/images/small_play')
+            @include bg_img('../../assets/images/small_pause');
+            &.active{
+              @include bg_img('../../assets/images/small_play')
+            }
           }
           p{
             @include font_size($font_medium_s);

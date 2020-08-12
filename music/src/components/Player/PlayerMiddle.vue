@@ -2,7 +2,10 @@
   <swiper :options="swiperOptions" class="playermiddle">
     <!-- slides -->
     <swiper-slide class="cd">
-      <div class="cd-warpper"><img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt=""></div>
+      <div class="cd-warpper"
+      ref="cdWarpper">
+        <img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt="">
+      </div>
       <p>aaaaaaaaa</p>
     </swiper-slide>
     <swiper-slide class="lyric">
@@ -70,6 +73,8 @@
 import { Swiper, SwiperSlide } from 'vue-awesome-swiper'
 import 'swiper/css/swiper.css'
 import ScrollView from '../ScrollView'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'PlayerMiddle',
   components: {
@@ -88,6 +93,20 @@ export default {
         observer: true,
         observeParents: true,
         observeSlideChildren: true
+      }
+    }
+  },
+  computed: {
+    ...mapGetters([
+      'isPlaying'
+    ])
+  },
+  watch: {
+    isPlaying (newValue, oldValue) {
+      if (newValue) {
+        this.$refs.cdWarpper.classList.add('active')
+      } else {
+        this.$refs.cdWarpper.classList.remove('active')
       }
     }
   }
@@ -112,6 +131,11 @@ export default {
       border-radius: 50%;
       border: 30px solid #FFFFFF;
       overflow: hidden;
+      animation: sport 5s linear infinite;
+      animation-play-state: running;
+      &.active{
+        animation-play-state: paused;
+      }
       img {
         width: 100%;
         height: 100%;
@@ -136,6 +160,14 @@ export default {
     }
   }
 }
+  @keyframes sport {
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(360deg);
+    }
+  }
 </style>
 <style lang="scss">
   @import "../../assets/css/mixin";

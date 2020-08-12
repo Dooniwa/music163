@@ -1,4 +1,4 @@
-import { SET_FULL_SCREEN, SET_MINI_SCREEN } from './mutations-type'
+import { SET_FULL_SCREEN, SET_MINI_SCREEN, SET_IS_PLAYING } from './mutations-type'
 
 export default {
   setFullScreen ({ commit }, flag) {
@@ -6,5 +6,8 @@ export default {
   },
   setMiniScreen ({ commit }, flag) {
     commit(SET_MINI_SCREEN, flag)
+  },
+  setIsPlaying ({ commit }, flag) {
+    commit(SET_IS_PLAYING, flag)
   }
 }

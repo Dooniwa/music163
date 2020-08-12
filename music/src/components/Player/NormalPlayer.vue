@@ -1,15 +1,21 @@
 <template>
-<div class="normal-player" v-show="this.isFullScreen">
-  <div class="player-warpper">
-    <PlayerHeader></PlayerHeader>
-    <PlayerMiddle></PlayerMiddle>
-    <PlayerBottom></PlayerBottom>
-  </div>
-  <div class="player-bg">
-    <img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt="">
-    <div></div>
-  </div>
-</div>
+  <transition
+    v-on:enter="enter"
+    v-on:leave="leave"
+    v-bind:css="false"
+  >
+    <div class="normal-player" v-show="this.isFullScreen">
+      <div class="player-warpper">
+        <PlayerHeader></PlayerHeader>
+        <PlayerMiddle></PlayerMiddle>
+        <PlayerBottom></PlayerBottom>
+      </div>
+      <div class="player-bg">
+        <img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt="">
+        <div></div>
+      </div>
+    </div>
+  </transition>
 </template>
 
 <script>
@@ -17,6 +23,8 @@ import PlayerHeader from './PlayerHeader'
 import PlayerMiddle from './PlayerMiddle'
 import PlayerBottom from './PlayerBottom'
 import { mapGetters } from 'vuex'
+import Velocity from 'velocity-animate'
+import 'velocity-animate/velocity.ui'
 export default {
   name: 'NormalPlayer',
   components: {
@@ -29,6 +37,18 @@ export default {
       'isFullScreen'
     ]
     )
+  },
+  methods: {
+    enter (el, done) {
+      Velocity(el, 'transition.fadeIn', { duration: 1000 }, function () {
+        done()
+      })
+    },
+    leave (el, done) {
+      Velocity(el, 'transition.fadeOut', { duration: 1000 }, function () {
+        done()
+      })
+    }
   }
 }
 </script>

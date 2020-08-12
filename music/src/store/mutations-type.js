@@ -1,2 +1,3 @@
 export const SET_FULL_SCREEN = 'SET_FULL_SCREEN'
 export const SET_MINI_SCREEN = 'SET_MINI_SCREEN'
+export const SET_IS_PLAYING = 'SET_IS_PLAYING'

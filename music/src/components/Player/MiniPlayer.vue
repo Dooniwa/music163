@@ -1,45 +1,79 @@
 <template>
+  <transition
+    v-on:enter="enter"
+    v-on:leave="leave"
+    v-bind:css="false"
+  >
     <div class="mini-player" v-show="this.isMiniScreen">
       <div class="player-warpper">
         <div class="player-left" @click="showNormalPlayer">
-          <img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt="">
+          <img src="https://p2.music.126.net/QHw-RuMwfQkmgtiyRpGs0Q==/102254581395219.jpg" alt="" ref="miniImg">
           <div class="player-title">
             <h3>演员</h3>
             <p>薛之谦</p>
           </div>
         </div>
         <div class="player-right">
-          <div class="play"></div>
+          <div class="play" @click="play" ref="play"></div>
           <div class="list" @click.stop="showList"></div>
         </div>
       </div>
     </div>
+  </transition>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Velocity from 'velocity-animate'
+import 'velocity-animate/velocity.ui'
 
 export default {
   name: 'MiniPlayer',
   methods: {
     ...mapActions([
       'setFullScreen',
-      'setMiniScreen'
+      'setMiniScreen',
+      'setIsPlaying'
     ]
     ),
+    play () {
+      this.setIsPlaying(!this.isPlaying)
+    },
     showNormalPlayer () {
       this.setFullScreen(true)
       this.setMiniScreen(false)
     },
     showList () {
       this.$emit('showList')
+    },
+    enter (el, done) {
+      Velocity(el, 'transition.flipXIn', { duration: 1000 }, function () {
+        done()
+      })
+    },
+    leave (el, done) {
+      Velocity(el, 'transition.flipXOut', { duration: 1000 }, function () {
+        done()
+      })
     }
   },
   computed: {
     ...mapGetters([
-      'isMiniScreen'
+      'isMiniScreen',
+      'isPlaying'
     ]
     )
+  },
+  watch: {
+    isPlaying (newValue, oldValue) {
+      if (newValue) {
+        this.$refs.play.classList.add('active')
+        this.$refs.miniImg.classList.add('active')
+      } else {
+        this.$refs.play.classList.remove('active')
+        this.$refs.miniImg.classList.remove('active')
+      }
+    }
   }
 }
 </script>
@@ -67,6 +101,11 @@ export default {
         height: 100px;
         border-radius: 50%;
         margin: 0 20px;
+        animation: sport 5s linear infinite;
+        animation-play-state: running;
+        &.active{
+          animation-play-state: paused;
+        }
       }
       .player-title{
         display: flex;
@@ -89,7 +128,10 @@ export default {
       .play{
         width: 84px;
         height: 84px;
-        @include bg_img('../../assets/images/play')
+        @include bg_img('../../assets/images/pause');
+        &.active{
+          @include bg_img('../../assets/images/play')
+        }
       }
       .list{
         width: 120px;
@@ -99,4 +141,12 @@ export default {
     }
   }
 }
+  @keyframes sport {
+    from{
+      transform: rotate(0deg);
+    }
+    to{
+      transform: rotate(360deg);
+    }
+  }
 </style>
