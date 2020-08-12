@@ -18,7 +18,9 @@ export default {
       disablePointer: true,
       disableTouch: false,
       disableMouse: true,
-      click: true
+      click: false,
+      preventDefault: false,
+      preventDefaultException: { tagName: /^(INPUT|TEXTAREA|BUTTON|SELECT|A)$/ }
     })
     // 1.创建一个观察者对象
     /*
