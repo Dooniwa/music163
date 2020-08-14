@@ -33,6 +33,7 @@ export default {
     ...mapActions([
       'setFullScreen',
       'setMiniScreen',
+      'setListScreen',
       'setIsPlaying'
     ]
     ),
@@ -44,7 +45,7 @@ export default {
       this.setMiniScreen(false)
     },
     showList () {
-      this.$emit('showList')
+      this.setListScreen(true)
     },
     enter (el, done) {
       Velocity(el, 'transition.flipXIn', { duration: 1000 }, function () {

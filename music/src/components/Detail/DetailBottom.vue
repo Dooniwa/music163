@@ -25,12 +25,14 @@ export default {
   methods: {
     ...mapActions([
       'setFullScreen',
-      'setMiniScreen'
+      'setMiniScreen',
+      'setListScreen'
     ]
     ),
     selectMusic () {
       this.setFullScreen(true)
       this.setMiniScreen(false)
+      this.setListScreen(false)
     }
   }
 }
